@@ -7,6 +7,12 @@
 * V1: identify parcels of land for solar development given custom inputs for size, buffers, distance from power lines
 * V2: identify rooftops for solar arrays given custom inputs for size, buffers
 
+### TODO
+* Store data in PostGIS
+* Change react app to typescript template
+* Publish QGIS map into a web map
+
+
 ### Tech Stack
 * React and typescript front-end
 * Django / Python backend
