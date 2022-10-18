@@ -3,3 +3,4 @@
 * Colorado counties shapefile: https://data-cdphe.opendata.arcgis.com/datasets/colorado-county-boundaries/explore?location=38.979549%2C-105.550600%2C7.94
 * Gunnison County parcels shapefile: https://www.gunnisoncounty.org/324/Downloadable-Datasets
 * Digital Elevation Model tif: https://apps.nationalmap.gov/downloader/
+* Wetlands data: https://www.fws.gov/program/national-wetlands-inventory/data-download
