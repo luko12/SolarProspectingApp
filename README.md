@@ -9,7 +9,6 @@
 
 ### TODO
 * Migrate PostgreSQL DB to cloud (GCP)
-* Upload raster files to DB
 * Port/embed webmap from mapbox export to React
 * Host web map on cloud
 
