@@ -1,0 +1,6 @@
+-- loading rasters into PostGIS: 
+-- 1. create sql file
+-- -- raster2pgsql -s 4269 -I -C -M gunnison_dem.tif -F > elev.sql
+-- 2. run sql file in CMD 
+-- -- psql -U username -d dbname -h host -v passwd=password -f ./elev.sql
+-- -- psql -U postgres -d SolarProspectingApp -h database-1.czskhcqd4krm.us-east-1.rds.amazonaws.com -v passwd=password -f ./elev.sql

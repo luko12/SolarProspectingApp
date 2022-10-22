@@ -1,22 +1,21 @@
 # Solar Prospecting Web App
 
 ## A personal project
-![](/Images/Screenshot%202022-10-21%20203356.png)
+![](/Images/Screenshot%202022-10-22%20172324.png)
 
 ### Goals
 * V1: identify parcels of land for solar development given custom inputs for size, buffers, distance from power lines
 * V2: identify rooftops for solar arrays given custom inputs for size, buffers
 
 ### TODO
-* Migrate PostgreSQL DB to cloud (GCP)
 * Port/embed webmap from mapbox export to React
 * Host web map on cloud
 
 
 ### Tech Stack
 * Mapped with QGIS
-* Data stored in PostGIS/PostgreSQL db
-* Computed with Django - Python backend
+* Data stored in PostgreSQL/PostGIS db hosted on AWS RDS
+* Scripts computed with Django - Python backend
 * Published via web map with React, Typescript
-* Hosted on GCP
+* Front-end Hosted on GCP
 * (v2) Utilizes satellite imagery
