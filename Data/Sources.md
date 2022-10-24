@@ -4,3 +4,4 @@
 * Gunnison County parcels shapefile: https://www.gunnisoncounty.org/324/Downloadable-Datasets
 * Digital Elevation Model tif: https://apps.nationalmap.gov/downloader/
 * Wetlands data: https://www.fws.gov/program/national-wetlands-inventory/data-download
+* Transmission data: https://hub.arcgis.com/maps/e0b0c78826224ee78090c5ed82930e86/about

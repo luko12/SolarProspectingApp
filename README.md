@@ -1,7 +1,7 @@
 # Solar Prospecting Web App
 
 ## A personal project
-![](/Images/Screenshot%202022-10-22%20172324.png)
+![](/Images/Screenshot%202022-10-24%20122219.png)
 
 ### Goals
 * V1: identify parcels of land for solar development given custom inputs for size, buffers, distance from power lines
