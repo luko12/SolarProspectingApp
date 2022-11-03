@@ -19,3 +19,6 @@ processing.run(
         'METHOD': 0
     }
 )
+
+layer = qgis.utils.iface.activeLayer()
+print('layer:', layer, 'layer id:', layer.id(), 'layer feature count:', layer.featureCount())
