@@ -20,3 +20,9 @@
 * Published via web map with React, Typescript
 * Front-end Hosted on GCP
 * (v2) Utilizes satellite imagery
+
+
+## How To
+* Install QGIS with OSGEO4W Advanced Installation
+* Configure filepaths in vscode.bat, run that command in order to open VSCode IDE with qgis.core module
+* Now you can run processes in a standalone script
