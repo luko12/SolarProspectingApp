@@ -24,5 +24,5 @@
 
 ## How To
 * Install QGIS with OSGEO4W Advanced Installation
-* Configure filepaths in vscode.bat, run that command in order to open VSCode IDE with qgis.core module
+* Configure filepaths in vscode.bat, run that batch file in order to open VSCode IDE with qgis.core module
 * Now you can run processes in a standalone script
