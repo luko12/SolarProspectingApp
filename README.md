@@ -8,7 +8,7 @@
 * V2: identify rooftops for solar arrays given custom inputs for size, buffers
 
 ### TODO
-* Determine best environment for Python processing (plugin, other)
+* Complete processing algorithm end to end as standalone script
 * Port/embed webmap from mapbox export to React
 * Host web map on cloud
 
