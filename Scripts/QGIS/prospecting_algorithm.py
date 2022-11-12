@@ -2,7 +2,7 @@ import utilities
 """
 Prospecting steps:
 1. Buffer powerlines X meters
-2. Select parcels touching powerlines buffer
+2. Select parcels by location (if touching powerlines buffer)
 3. Clip wetlands & floodplains to parcel selection to reduce working file size
 4. Buffer wetlands & floodplains X meters
 5. Difference? 
