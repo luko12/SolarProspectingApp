@@ -8,6 +8,7 @@
 * V2: identify rooftops for solar arrays given custom inputs for size, buffers
 
 ### TODO
+* Connect pyqgis to postgreSQL
 * Complete processing algorithm end to end as standalone script
 * Port/embed webmap from mapbox export to React
 * Host web map on cloud
