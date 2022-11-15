@@ -1,11 +1,17 @@
 import sys
-
-from qgis.core import QgsApplication, QgsProcessingFeedback
+from qgis.core import (
+    QgsApplication,
+    QgsVectorLayer,
+    QgsProcessingFeedback,
+    QgsVectorFileWriter,
+)
 from qgis.analysis import QgsNativeAlgorithms
+
 
 QgsApplication.setPrefixPath(r'C:\OSGeo4W\apps\qgis-dev', True)
 qgs = QgsApplication([], False)
 qgs.initQgis()
+
 
 # Add the path to processing so we can import it next
 sys.path.append(r'C:\OSGeo4W\apps\qgis-dev\python\plugins')
@@ -14,17 +20,18 @@ sys.path.append(r'C:\OSGeo4W\apps\qgis-dev\python\plugins')
 import processing
 from processing.core.Processing import Processing
 
+
 Processing.initialize()
 QgsApplication.processingRegistry().addProvider(QgsNativeAlgorithms())
 feedback = QgsProcessingFeedback()
- 
 
-def buffer(input: any, meters: int, **kwargs) -> dict:
+
+def buffer(input: QgsVectorLayer, meters: int, **kwargs) -> dict:
     print("-----BUFFER-----")
     output = kwargs.get('output', 'TEMPORARY_OUTPUT')
     output = processing.run("native:buffer",
         {
-            'INPUT':input,
+            'INPUT': input,
             'DISTANCE':meters,
             'SEGMENTS':5,
             'END_CAP_STYLE':0,
@@ -34,11 +41,11 @@ def buffer(input: any, meters: int, **kwargs) -> dict:
             'OUTPUT':output
         }
     )
-    return output
+    return output['OUTPUT']
 
-def select_by_location(input: any, compare: any, geometric_predicate: list) -> dict:
+def select_by_location(input: QgsVectorLayer, compare: QgsVectorLayer, geometric_predicate: list) -> dict:
     print("-----SELECT BY LOCATION-----")
-    output = processing.run(
+    processing.run(
         "native:selectbylocation",
         {
             'INPUT': input,
@@ -47,4 +54,18 @@ def select_by_location(input: any, compare: any, geometric_predicate: list) -> d
             'METHOD': 0
         }
     )
+    # _writer = QgsVectorFileWriter.writeAsVectorFormat(
+    #     layer= input, 
+    #     fileName= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\myselection.shp", 
+    #     fileEncoding= "utf-8",
+    #     destCRS= input.crs(), 
+    #     driverName= "ESRI Shapefile",
+    #     onlySelected=True
+    # )
+    # QgsVectorLayer()
+    # tempLayer = QgsVectorLayer("Polygon", "temporary_points", "memory")
+
+    output = processing.run('native:savefeatures', {'INPUT': input, 'OUTPUT':"TEMPORARY_OUTPUT"})
+
+
     return output
