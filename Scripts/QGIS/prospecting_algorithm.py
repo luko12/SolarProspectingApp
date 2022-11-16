@@ -38,6 +38,10 @@ Declare Layers
 """
 uri.setDataSource("public", "transmission_lines", "geom")
 transmission_lines_layer = QgsVectorLayer(uri.uri(), "transmission_lines", "postgres")
+uri.setDataSource("public", "floodzones", "geom")
+floodzones_layer = QgsVectorLayer(uri.uri(), "floodzones", "postgres")
+uri.setDataSource("public", "wetlands", "geom")
+wetlands_layer = QgsVectorLayer(uri.uri(), "wetlands", "postgres")
 uri.setDataSource("public", "Parcels", "geom")
 parcels_layer = QgsVectorLayer(uri.uri(), "Parcels", "postgres")
 
@@ -45,24 +49,46 @@ parcels_layer = QgsVectorLayer(uri.uri(), "Parcels", "postgres")
 """
 Buffer powerlines 100m
 """
-buffered_powerlines = utilities.buffer(
-        input= transmission_lines_layer,
-        meters = 100,
-    )
-print("buffered_powerlines:", buffered_powerlines, 'id:', buffered_powerlines.id(), 'feature count:', buffered_powerlines.featureCount())
+buffered_powerlines_layer = utilities.buffer(
+    input= transmission_lines_layer,
+    meters= 100,
+)
+# print("buffered_powerlines_layer:", buffered_powerlines_layer, 'id:', buffered_powerlines_layer.id(), 'feature count:', buffered_powerlines_layer.featureCount())
+
+
+"""
+Buffer floodzones and wetlands 100m
+"""
+buffered_floodzones_layer = utilities.buffer(
+    input= floodzones_layer,
+    meters= 100,
+)
+# print("buffered_floodzones_layer:", buffered_floodzones_layer, 'id:', buffered_floodzones_layer.id(), 'feature count:', buffered_floodzones_layer.featureCount())
+buffered_wetlands_layer = utilities.buffer(
+    input= wetlands_layer,
+    meters= 100,    
+)
+# print("buffered_wetlands_layer:", buffered_wetlands_layer, 'id:', buffered_wetlands_layer.id(), 'feature count:', buffered_wetlands_layer.featureCount())
 
 
 """
 Select parcels intersecting the buffered powerlines
 """
-print('feature count parcels:', parcels_layer.featureCount())
-parcels_electrical_selection = utilities.select_by_location(
+parcels_electrical_selection_layer = utilities.select_by_location(
     input= parcels_layer,
-    compare= buffered_powerlines,
+    compare= buffered_powerlines_layer,
     geometric_predicate= [0]
 )
-print("selected_parcels:", parcels_electrical_selection, 'id:', parcels_electrical_selection.id(), 'feature count:', parcels_electrical_selection.featureCount())
+# print("selected_parcels:", parcels_electrical_selection_layer, 'id:', parcels_electrical_selection_layer.id(), 'feature count:', parcels_electrical_selection_layer.featureCount())
+
 
 """
-
+Difference selected parcels from floodzones and wetlands
 """
+difference_output = utilities.difference(
+    input= parcels_electrical_selection_layer,
+    overlay= buffered_floodzones_layer,
+    overlay1= buffered_wetlands_layer,
+    output= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\difference.shp"
+)
+# print('difference:', difference_output)
