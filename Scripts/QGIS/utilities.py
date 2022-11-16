@@ -2,6 +2,7 @@ import sys
 from qgis.core import (
     QgsApplication,
     QgsVectorLayer,
+    QgsRasterLayer,
     QgsProcessingFeedback,
     QgsVectorFileWriter,
     QgsProcessingFeatureSourceDefinition,
@@ -33,7 +34,7 @@ context.setInvalidGeometryCheck(QgsFeatureRequest.GeometryNoCheck)
 
 
 def buffer(input: QgsVectorLayer, meters: int, **kwargs) -> QgsVectorLayer:
-    print("-----BUFFER " + input.name() + "-----")
+    print("-----BUFFER " + get_name(input) + "-----")
     output_path = kwargs.get('output', 'TEMPORARY_OUTPUT')
     output = processing.run("native:buffer",
         {
@@ -47,12 +48,13 @@ def buffer(input: QgsVectorLayer, meters: int, **kwargs) -> QgsVectorLayer:
             'OUTPUT':output_path
         }
     )
-    output['OUTPUT'].setName(input.name() + "_buffered")
+    if output_path == 'TEMPORARY_OUTPUT':
+        output['OUTPUT'].setName(input.name() + "_buffered")
     return output['OUTPUT']
 
 
 def select_by_location(input: QgsVectorLayer, compare: QgsVectorLayer, geometric_predicate: list, **kwargs) -> QgsVectorLayer:
-    print("-----SELECT BY LOCATION " + input.name() + "-----")
+    print("-----SELECT BY LOCATION " + get_name(input) + "-----")
     output_path = kwargs.get('output', 'TEMPORARY_OUTPUT')
     processing.run(
         "native:selectbylocation",
@@ -64,20 +66,17 @@ def select_by_location(input: QgsVectorLayer, compare: QgsVectorLayer, geometric
         }
     )
 
-    output = processing.run(
-        "native:saveselectedfeatures", 
-        {
-            'INPUT': input,
-            'OUTPUT':output_path
-        }
-    )
-    output['OUTPUT'].setName(input.name() + "_selected")
+    output = save_selected_features(input, output_path)
+
+    if output_path == 'TEMPORARY_OUTPUT':
+        output['OUTPUT'].setName(input.name() + "_selected")
     return output['OUTPUT']
 
 
 def difference(input: QgsVectorLayer, overlay: QgsVectorLayer, **kwargs) -> QgsVectorLayer:
-    print("-----DIFFERENCE " + input.name() + " & " + overlay.name() + "-----")
+    print("-----DIFFERENCE " + get_name(input) + "-----")
 
+    # iterate across all overlays
     overlay_num = 0
     while overlay:
         if overlay_num == 0:
@@ -87,7 +86,7 @@ def difference(input: QgsVectorLayer, overlay: QgsVectorLayer, **kwargs) -> QgsV
             input = output['OUTPUT']
 
         if overlay:
-            print('overlay:', overlay.name())
+            print('overlay:', get_name(overlay))
             output = processing.run(
                 "native:difference", 
                 {
@@ -99,19 +98,39 @@ def difference(input: QgsVectorLayer, overlay: QgsVectorLayer, **kwargs) -> QgsV
             )
             overlay_num += 1
 
-    output['OUTPUT'].setName(input.name() + "_differenced")
-
-
     if (kwargs.get('output', '')):
-        output = processing.run(
-        "native:savefeatures", 
+        save_features(output['OUTPUT'], kwargs.get('output', ''))
+    else:
+        output['OUTPUT'].setName(input.name() + "_differenced")
+    return output['OUTPUT']
+    
+
+def save_features(input: QgsVectorLayer, output: str):
+    print("-----SAVE FEATURES " + get_name(input) + "-----")
+    processing.run(
+        "native:savefeatures",
         {
-            'INPUT': output['OUTPUT'],
-            'OUTPUT': kwargs.get('output', '')
+            'INPUT': input,
+            'OUTPUT': output
         }
     )
 
+def save_selected_features(input: QgsVectorLayer, output: str) -> any:
+    print("-----SAVE SELECTED FEATURES " + get_name(input) + "-----")
+    return (
+        processing.run(
+            "native:saveselectedfeatures", 
+            {
+                'INPUT': input,
+                'OUTPUT':output
+            }
+        )
+    )
 
-    return output['OUTPUT']
-    
+
+def get_name(input: any) -> str:
+    if type(input) == str:
+        return input.rsplit('\\', 1)[1].split('.')[0]
+    elif type(input) == QgsVectorLayer or type(input) == QgsRasterLayer:
+        return input.name()
 

@@ -62,6 +62,7 @@ Buffer floodzones and wetlands 100m
 buffered_floodzones_layer = utilities.buffer(
     input= floodzones_layer,
     meters= 100,
+    # output= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\flood_buffered.shp"
 )
 # print("buffered_floodzones_layer:", buffered_floodzones_layer, 'id:', buffered_floodzones_layer.id(), 'feature count:', buffered_floodzones_layer.featureCount())
 buffered_wetlands_layer = utilities.buffer(
@@ -83,12 +84,21 @@ parcels_electrical_selection_layer = utilities.select_by_location(
 
 
 """
-Difference selected parcels from floodzones and wetlands
+Inverse buffer selected parcels 100m
+"""
+parcels_electrical_selection_buffered_layer = utilities.buffer(
+    input= parcels_electrical_selection_layer,
+    meters= -200,
+)
+
+
+"""
+Difference inverse buffered selected parcels from floodzones and wetlands
 """
 difference_output = utilities.difference(
-    input= parcels_electrical_selection_layer,
+    input= parcels_electrical_selection_buffered_layer,
     overlay= buffered_floodzones_layer,
     overlay1= buffered_wetlands_layer,
-    output= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\difference.shp"
+    output= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\differenceall.shp"
 )
 # print('difference:', difference_output)

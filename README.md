@@ -8,14 +8,12 @@
 * V2: identify rooftops for solar arrays given custom inputs for size, buffers
 
 ### TODO
-* inverse buffer parcels
 * explore python virtual environment for qgis.core
 * create view or published map
 * calculate slope from raster
 * create raster in postgis
 * Port/embed webmap from mapbox export to React
 * Complete processing algorithm end to end as standalone script
-* Change setName to execute only on QgsVectorLayer types
 * Explore repairing invalid geometries
 * Host web map on cloud
 
