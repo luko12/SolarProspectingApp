@@ -55,9 +55,14 @@ print("buffered_powerlines:", buffered_powerlines, 'id:', buffered_powerlines.id
 """
 Select parcels intersecting the buffered powerlines
 """
+print('feature count parcels:', parcels_layer.featureCount())
 parcels_electrical_selection = utilities.select_by_location(
     input= parcels_layer,
     compare= buffered_powerlines,
     geometric_predicate= [0]
 )
-print("selected_parcels:", parcels_electrical_selection)
+print("selected_parcels:", parcels_electrical_selection, 'id:', parcels_electrical_selection.id(), 'feature count:', parcels_electrical_selection.featureCount())
+
+"""
+
+"""

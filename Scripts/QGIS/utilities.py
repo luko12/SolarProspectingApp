@@ -54,18 +54,12 @@ def select_by_location(input: QgsVectorLayer, compare: QgsVectorLayer, geometric
             'METHOD': 0
         }
     )
-    # _writer = QgsVectorFileWriter.writeAsVectorFormat(
-    #     layer= input, 
-    #     fileName= r"C:\Users\lukas\Documents\LukasProjects\SolarProspectingApp\Data\myselection.shp", 
-    #     fileEncoding= "utf-8",
-    #     destCRS= input.crs(), 
-    #     driverName= "ESRI Shapefile",
-    #     onlySelected=True
-    # )
-    # QgsVectorLayer()
-    # tempLayer = QgsVectorLayer("Polygon", "temporary_points", "memory")
 
-    output = processing.run('native:savefeatures', {'INPUT': input, 'OUTPUT':"TEMPORARY_OUTPUT"})
-
-
-    return output
+    output = processing.run(
+        "native:saveselectedfeatures", 
+        {
+            'INPUT': input,
+            'OUTPUT':"TEMPORARY_OUTPUT"
+        }
+    )
+    return output['OUTPUT']
